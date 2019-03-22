@@ -1,0 +1,5 @@
+node_modules/
+/demo/testData/
+/demo/.idea/
+/demo/HELP.md
+/demo/target/
