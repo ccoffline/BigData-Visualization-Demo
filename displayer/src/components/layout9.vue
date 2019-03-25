@@ -2,7 +2,7 @@
   <div id="layout8">
     <el-container>
       <el-header>
-        <h1 style="margin: 0px;">{{this.$route.params.title}}</h1>
+        <h1 style="margin: 0px;">{{title}}</h1>
       </el-header>
       <el-container>
         <el-aside width="300px">
@@ -74,7 +74,7 @@
           </el-row>
         </el-aside>
         <el-main style="overflow-x: hidden;overflow-y: hidden;">
-          <el-card :body-style="{ padding: '0px',height:layerheight}">
+          <el-card :body-style="{ padding: '0px', height: layerheight }">
             <div
               class="bigchart"
               id="chart0"
@@ -88,140 +88,60 @@
 
 <script>
 export default {
-  name: 'layout8',
-  data () {
+  name: "layout9",
+  data() {
     return {
-      layerheight: '',
-      websocket: null,
-      charts:[],
+      layerheight: null,
+      title: "",
+      theme: ""
     };
   },
-  created () {
-    this.setlayerheight();
-    this.initWebpack();
-  },
-
-  mounted () {
-    for (var i = 0; i < this.chartData.length; i++) {
-      var tempid = 'chart' + i;
-      this.$chart.line1(tempid, this.chartData[i]);
-    }
-
+  created() {
+    this.layerheight = window.innerHeight - 102 + "px";
+    var websocket = new WebSocket(this.$root.websocketUrl("/chart"));
+    websocket.onopen = () => {
+      console.log("chart connect");
+    };
+    websocket.onclose = () => {
+      console.log("chart disconnect");
+    };
+    websocket.onerror = this.networkError;
+    websocket.onmessage = this.receiveMessage;
   },
   methods: {
-    // websocket
-    initWebpack () {//初始化websocket
-      const wsuri = "ws://172.20.10.8:8080/websocket";
-      this.websocket = new WebSocket(wsuri);//这里面的this都指向vue
-      this.websocket.onopen = this.websocketopen;
-      this.websocket.onmessage = this.websocketonmessage;
-      this.websocket.onclose = this.websocketclose;
-      this.websocket.onerror = this.websocketerror;
+    networkError() {
+      this.$message.error("网络错误\n请刷新重试");
     },
-    websocketopen () {//打开
-      console.log("WebSocket连接成功");
-      this.websocket.send('get');
-    },
-    websocketonmessage (e) { //数据接收
-      console.log(e);
-      var data = JSON.parse(e.data); 
-     // alert(e.data);
-      switch (data.function) {
-        case 'add': {
-          var num = data.number;
-          this.tempData.title.text = data.title;
-          this.tempData.xAxis.data = data.data.x;
-          this.tempData.series[0].data = data.data.y;
-          this.tempData.series[0].type = data.type;
-          this.setSingleData(num);
-          return;
-        }
-        case 'delete': {
-          var num = data.number;
-          this.deleteSingleData(num);
-          return;
-        }
-        case 'changeMain': {
-          var num = data.number;
-          this.changeMain(num);
-          return;
-        }
-        case 'exchange': {
-          var num1 = data.number1;
-          var num2 = data.number2;
-          this.exchange(num1, num2);
-          return;
-        }
-        case 'edit': {
-          if (data.title != '***') {
-            this.editTitle(data.title);
-          }
-          if (data.color != '***') {
-            this.editColor(data.color);
-          }
-          return;
-        }
-        case 'removeall': {
-          this.clearAllData();
-        }
-        default: {
-          return;
-        }
+    receiveMessage(e) {
+      var message = JSON.parse(e.data);
+      console.log(message);
+      switch (message.cmd) {
+        case "draw":
+          this.$chart.draw(
+            "chart" + message.position,
+            JSON.parse(message.chart),
+            this.theme
+          );
+          break;
+        case "clear":
+          this.$chart.clear("chart" + message.position);
+          break;
+        case "setTitle":
+          this.title = message.title;
+          break;
+        case "setTheme":
+          this.theme = message.theme;
+          break;
       }
-    },
-    websocketclose () {  //关闭
-      console.log("WebSocket关闭");
-    },
-    websocketerror () {  //失败
-      console.log("WebSocket连接失败");
-    },
-    // websocket
-    //替换主图
-    changeMain (num) {
-      this.chartData[0] = this.chartData[num];
-      this.$chart.line1('chart0', this.chartData[0]);
-      return;
-    },
-    //添加图
-    setSingleData (num) {
-      this.chartData[num] = this.tempData;
-      var tempid = 'chart' + num;
-      this.$chart.line1(tempid, this.chartData[num]);
-      return;
-    },
-    //删除图
-    deleteSingleData (num) {
-      this.chartData[num] = {};
-      this.$chart.line1(tempid, this.chartData[num]);
-      return;
-    },
-    //清空大屏
-    clearAllData () {
-      for (var i = 0; i < this.chartData.length; i++) {
-        var tempid = 'chart' + i;
-        this.chartData[i] = {};
-        this.$chart.line1(tempid, this.chartData[i]);
-      }
-      return;
-    },
-    //交换两个图的位位置
-    exchange (num1, num2) {
-      this.tempData = this.chartData[num1];
-      this.chartData[num1] = this.chartData[num2];
-      this.chartData[num2] = this.tempData;
-      return;
-    },
-    setlayerheight () {
-      this.layerheight = window.innerHeight - 102 + 'px';
-    },
+    }
   }
-}
+};
 </script>
 
-<style>
+<style scoped>
 .smallchart {
   width: 100%;
-  height: 190px;
+  height: 165px;
 }
 .bigchart {
   width: 100%;

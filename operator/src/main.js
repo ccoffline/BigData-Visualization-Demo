@@ -29,6 +29,9 @@ new Vue({
     };
   },
   methods: {
+    getLayoutSrc(name) {
+      return "../static/images/" + name + ".png";
+    },
     get(url, params, success) {
       axios
         .get(this.SERVER_URL + url, { params: params })
@@ -50,51 +53,6 @@ new Vue({
     postForm(url, params, success) {
       axios
         .post(this.SERVER_URL + url, qs.stringify(params))
-        .then(success)
-        .catch(error => {
-          this.$message.error("网络错误");
-          console.log(error);
-        });
-    },
-    getChart(url, params, success) {
-      axios
-        .get(this.SERVER_URL + "/chart" + url, { params: params })
-        .then(success)
-        .catch(error => {
-          this.$message.error("网络错误");
-          console.log(error);
-        });
-    },
-    postChart(url, params, success) {
-      axios
-        .post(this.SERVER_URL + "/chart" + url, params)
-        .then(success)
-        .catch(error => {
-          this.$message.error("网络错误");
-          console.log(error);
-        });
-    },
-    setPosition(url, params, success) {
-      axios
-        .post(this.SERVER_URL + "/chart" + url, qs.stringify(params))
-        .then(success)
-        .catch(error => {
-          this.$message.error("网络错误");
-          console.log(error);
-        });
-    },
-    getLayout(url, params, success) {
-      axios
-        .get(this.SERVER_URL + "/layout" + url, { params: params })
-        .then(success)
-        .catch(error => {
-          this.$message.error("网络错误");
-          console.log(error);
-        });
-    },
-    postLayout(url, params, success) {
-      axios
-        .post(this.SERVER_URL + "/layout" + url, params)
         .then(success)
         .catch(error => {
           this.$message.error("网络错误");

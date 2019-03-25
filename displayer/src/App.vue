@@ -1,5 +1,5 @@
 <template>
-  <div class="full-screen">
+  <div id="app">
     <router-view />
   </div>
 </template>
@@ -26,22 +26,27 @@ export default {
     networkError() {
       this.$message.error("网络错误\n请刷新重试");
     },
-    receiveMessage(e) {
-      this.$router.push(e.data);
+    receiveMessage(message) {
+      this.$router.push(message.data);
     }
   }
 };
 </script>
 
 <style>
-body {
-  margin: 0;
-  padding: 0;
-  border: 0;
+#app {
+  font-family: "Avenir", Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-align: center;
+  color: #2c3e50;
 }
-.full-screen {
-  margin: 0px;
-  width: 100%;
+html,
+body,
+#app {
   height: 100%;
+  margin: 0px;
+  border: hidden;
+  overflow: hidden;
 }
 </style>

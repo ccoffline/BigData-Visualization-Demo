@@ -11,25 +11,33 @@ import java.io.IOException;
 
 @ServerEndpoint(value = "/layout")
 @Component
-public class LayoutController {
+public class LayoutConnection {
 
-    private static Session session;
+    private Session session;
+    private static LayoutConnection connection;
+
+    public static LayoutConnection getConnection() {
+        return connection;
+    }
 
     @OnOpen
     public void onOpen(Session session) {
-        LayoutController.session = session;
+        this.session = session;
+        connection = this;
+        System.out.println("layout connect");
     }
 
     @OnClose
     public void onClose() {
-        LayoutController.session = null;
+        connection = null;
+        System.out.println("layout disconnect");
     }
 
     @OnMessage
     public void onMessage(String message, Session session) {
     }
 
-    public static void setLayout(String name) throws IOException {
-        session.getBasicRemote().sendText(name);
+    public void setLayout(String layout) throws IOException {
+        session.getBasicRemote().sendText(layout);
     }
 }

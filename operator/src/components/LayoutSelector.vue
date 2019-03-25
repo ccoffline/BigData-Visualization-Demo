@@ -12,11 +12,11 @@
     </el-header>
     <el-main>
       <div
-        v-for="img in imgs"
-        :key="img.name"
+        v-for="(img,index) in imgs"
+        :key="index"
         @click="handleSelect(img)"
       >
-        <img :src="img.src" />
+        <img :src="$root.getLayoutSrc(img)" />
       </div>
     </el-main>
   </el-container>
@@ -28,30 +28,15 @@ export default {
   created() {},
   data() {
     return {
-      imgs: [
-        {
-          src: "/static/images/1.jpg",
-          name: "layout12"
-        },
-        {
-          src: "/static/images/2.jpg",
-          name: "layout2"
-        },
-        {
-          src: "/static/images/3.jpg",
-          name: "layout3"
-        }
-      ],
+      imgs: ["layout8", "layout9", "layout12"],
       search: "",
-      select: ""
     };
   },
   methods: {
     handleSelect(name) {
-      this.select = name;
       this.$router.push({
         name: "LayoutEditor",
-        params: { layout: this.select }
+        params: { layout: name }
       });
     }
   }

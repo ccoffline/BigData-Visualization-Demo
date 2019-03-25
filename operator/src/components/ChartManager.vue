@@ -70,13 +70,14 @@ export default {
       });
     },
     submit(index) {
+      console.log(index)
       this.$root.postForm(
         "/chart/set",
         { index: index, position: this.charts[index].position },
         response => {
-          if (response.data == "显示设置成功")
+          if (response.data == "设置成功")
             this.$message.success(response.data);
-          else this.$message.console.error(response.data);
+          else this.$message.error(response.data);
         }
       );
     }

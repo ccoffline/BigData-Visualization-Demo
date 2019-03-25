@@ -8,12 +8,12 @@ import elementui from "element-ui";
 import "element-ui/lib/theme-chalk/index.css";
 Vue.use(elementui);
 
-import chart from "./js/myCharts.js";
+import chart from "../static/js/chart_config";
 Vue.use(chart);
 
 Vue.config.productionTip = false;
 
-const SERVER_URL = "localhost:8080";
+const SERVER_URL = "172.20.10.13:8080";
 
 /* eslint-disable no-new */
 new Vue({

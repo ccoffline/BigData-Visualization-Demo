@@ -2,7 +2,7 @@ import Vue from "vue";
 import Router from "vue-router";
 import hello from "@/components/hello";
 import layout12 from "@/components/layout12";
-import layout8 from "@/components/layout8";
+import layout9 from "@/components/layout9";
 
 Vue.use(Router);
 
@@ -19,9 +19,9 @@ export default new Router({
       component: layout12
     },
     {
-      path: "/layout8",
-      name: "layout8",
-      component: layout8
+      path: "/layout9",
+      name: "layout9",
+      component: layout9
     }
   ]
 });

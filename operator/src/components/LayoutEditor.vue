@@ -1,6 +1,6 @@
 <template>
   <div>
-    <img :src="layout.src">
+    <img :src="$root.getLayoutSrc(this.layout)">
     <div class="inputs">
       <el-input
         placeholder="标题"
@@ -56,7 +56,7 @@ export default {
       layout: null,
       title: "",
       themes: [
-        { name: "light", title: "明亮" },
+        { name: "shine", title: "明亮" },
         { name: "dark", title: "幽暗" },
         { name: "macarons", title: "通心粉" }
       ],
@@ -71,15 +71,12 @@ export default {
       this.$root.postForm(
         "/layout/submit",
         {
-          name: this.layout.name,
+          name: this.layout,
           theme: this.themes[this.theme].name,
           title: this.title
         },
         response => {
-          this.$router.push({
-            name: "LayoutManager",
-            params: { src: this.layout.src, title: this.title }
-          });
+          this.$router.push({ name: "LayoutManager" });
         }
       );
     }

@@ -1,12 +1,14 @@
 import echarts from "echarts";
+import "./theme/macarons";
+import "./theme/shine";
+import "./theme/dark";
 const install = function(Vue) {
   Object.defineProperties(Vue.prototype, {
     $chart: {
       get() {
         return {
-          // 画一条简单的线
-          draw: function(id, option) {
-            this.chart = echarts.init(document.getElementById(id));
+          draw: function(id, option, theme) {
+            this.chart = echarts.init(document.getElementById(id), theme);
             this.chart.clear();
             this.chart.setOption(option);
           },
@@ -19,6 +21,4 @@ const install = function(Vue) {
   });
 };
 
-export default {
-  install
-};
+export default { install };

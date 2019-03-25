@@ -58,7 +58,7 @@
           </el-row>
         </el-aside>
         <el-main style="overflow-x: hidden;overflow-y: hidden;">
-          <el-card :body-style="{ padding: '0px',height:'400px'}">
+          <el-card :body-style="{ padding: '0px'}">
             <div
               class="bigchart"
               id="chart0"
@@ -128,7 +128,7 @@ export default {
   data() {
     return {
       title: "",
-      charts: []
+      theme: ""
     };
   },
   created() {
@@ -150,35 +150,36 @@ export default {
       var message = JSON.parse(e.data);
       console.log(message);
       switch (message.cmd) {
-        case "setChart":
-          this.charts[message.index] = JSON.parse(message.chart);
+        case "draw":
+          this.$chart.draw(
+            "chart" + message.position,
+            JSON.parse(message.chart),
+            this.theme
+          );
           break;
-        case "setPosition":
-          this.draw(message.index, message.position);
+        case "clear":
+          this.$chart.clear("chart" + message.position);
           break;
         case "setTitle":
           this.title = message.title;
           break;
+        case "setTheme":
+          this.theme = message.theme;
+          break;
       }
-    },
-    draw(index, position) {
-      this.$chart.draw("chart" + position, this.charts[index]);
-    },
-    clear(position) {
-      this.$chart.clear("chart" + position);
     }
   }
 };
 </script>
 
-<style>
+<style scoped>
 .smallchart {
   width: 100%;
   height: 190px;
 }
 .bigchart {
   width: 100%;
-  height: 100%;
+  height: 564px;
 }
 #app {
   font-family: "Avenir", Helvetica, Arial, sans-serif;

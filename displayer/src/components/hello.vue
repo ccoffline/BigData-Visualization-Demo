@@ -1,7 +1,7 @@
 <template>
   <div class="hello">
     <el-container>
-      <el-main>
+      <el-main direction="vertical">
         <img src="/static/images/logo.jpg">
         <h1>{{ name }}</h1>
         <h2>{{ title }}</h2>

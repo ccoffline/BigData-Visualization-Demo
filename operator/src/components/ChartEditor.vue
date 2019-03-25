@@ -173,7 +173,7 @@ export default {
     var type = this.$route.params.type;
     var name = this.$route.params.name;
     this.chart.title.text = name;
-    this.$root.getChart("/data", { name: name }, response => {
+    this.$root.get("/chart/data", { name: name }, response => {
       for (const column of response.data.columns) {
         if (column.type == "category") this.category.data = column.data;
         else {
@@ -213,7 +213,8 @@ export default {
           y2: "5",
           containLabel: true
         },
-        series: []
+        series: [],
+        animation: false
       },
       format: { text: "", position: null },
       category: {
@@ -268,12 +269,15 @@ export default {
         this.chart.xAxis = this.value;
       }
     },
-    format(value) {
-      var formatter = "{value}";
-      if (this.format.position == "prefix")
-        formatter = this.format.text + formatter;
-      else formatter = formatter + this.format.text;
-      value.axisLabel.formatter = formatter;
+    format: {
+      handler: function(val, oldval) {
+        var formatter = "{value}";
+        if (val.position == "prefix") formatter = val.text + formatter;
+        else formatter = formatter + val.text;
+        this.value.axisLabel.formatter = formatter;
+        console.log(formatter);
+      },
+      deep: true
     }
   }
 };

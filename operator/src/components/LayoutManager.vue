@@ -1,14 +1,40 @@
 <template>
   <div>
     <div
-      v-for="layout in layouts"
-      :key="layout.title"
+      v-for="(layout,index) in layouts"
+      :key="index"
     >
       <h1>{{layout.title}}</h1>
       <img
-        :src="layout.src"
-        @click="handleSelect(layout)"
+        :src="$root.getLayoutSrc(layout.name)"
+        @click="setSelected(index)"
       />
+      <transition name="el-fade-in-linear">
+        <el-row
+          v-if="selected==index"
+          class="inputs"
+        >
+          <el-col :span="8">
+            <el-button
+              type="warning"
+              @click="clear(index)"
+            >
+              清空
+            </el-button>
+          </el-col>
+          <el-col
+            :span="8"
+            :offset="8"
+          >
+            <el-button
+              type="primary"
+              @click="select(index)"
+            >
+              选择
+            </el-button>
+          </el-col>
+        </el-row>
+      </transition>
     </div>
   </div>
 </template>
@@ -17,15 +43,31 @@
 export default {
   name: "LayoutManager",
   created() {
-    this.layouts.push(this.$route.params);
+    this.$root.get("/layout/", null, response => {
+      this.layouts = response.data;
+    });
   },
   data() {
     return {
-      layouts: []
+      layouts: [],
+      selected: null
     };
   },
   methods: {
-    handleSelect(layout) {}
+    setSelected(index) {
+      if (this.selected == index) this.selected = null;
+      else this.selected = index;
+    },
+    select(index) {
+      this.$root.postForm("/layout/select", { index: index }, response => {
+        this.$message.success("选择成功");
+      });
+    },
+    clear(index) {
+      this.$root.postForm("/layout/clear", { index: index }, response => {
+        this.$message.success("清空成功");
+      });
+    }
   }
 };
 </script>
@@ -35,16 +77,15 @@ export default {
 img {
   width: 100%;
 }
-/* .el-card,
-.el-card__body {
-  margin: 0px;
-  padding: 0px;
+.el-select,
+.el-button,
+.el-input {
+  width: 100%;
+  margin-bottom: 10px;
 }
-.el-row {
-  margin: 5px;
-  text-align: left;
-  color: #adadad;
-} */
+.inputs {
+  padding: 10px;
+}
 h1 {
   color: #adadad;
   text-align: left;
