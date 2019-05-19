@@ -4,6 +4,8 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.data.hadoop.hbase.HbaseTemplate;
 
+import java.util.TreeMap;
+
 @SpringBootApplication
 public class DemoApplication {
 

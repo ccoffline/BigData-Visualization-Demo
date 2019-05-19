@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">大数据可视化模板操控终端</string>
+    <string name="server_url">http://10.0.2.2:8000</string>
+</resources>

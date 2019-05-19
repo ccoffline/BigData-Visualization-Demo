@@ -107,7 +107,7 @@ public class ChartService {
         }
 
         private List<Column> readColumns(String tableName) throws IOException {
-            File file = new File(tableName + ".csv");
+            File file = new File("data/" + tableName + ".csv");
             if (!file.exists()) return null;
             BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(file), "GBK"));
             String line;

@@ -9,10 +9,12 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.example</groupId>
-    <artifactId>demo</artifactId>
+    <artifactId>hdserver</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>demo</name>
-    <description>Demo project for Spring Boot</description>
+    <packaging>jar</packaging>
+
+    <name>Heimdall Server</name>
+    <description>Server end for the Heimdall System</description>
 
     <properties>
         <java.version>1.8</java.version>
@@ -94,6 +96,9 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    <mainClass>com.example.demo.DemoApplication</mainClass>
+                </configuration>
             </plugin>
         </plugins>
     </build>
