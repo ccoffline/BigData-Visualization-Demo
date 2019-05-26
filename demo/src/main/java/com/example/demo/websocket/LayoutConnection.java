@@ -8,16 +8,22 @@ import javax.websocket.OnOpen;
 import javax.websocket.Session;
 import javax.websocket.server.ServerEndpoint;
 import java.io.IOException;
+import java.util.Objects;
 
 @ServerEndpoint(value = "/layout")
 @Component
 public class LayoutConnection {
 
     private Session session;
+    private String layout;
     private static LayoutConnection connection;
 
     public static LayoutConnection getConnection() {
         return connection;
+    }
+
+    public void reset() {
+        layout = null;
     }
 
     @OnOpen
@@ -37,7 +43,9 @@ public class LayoutConnection {
     public void onMessage(String message, Session session) {
     }
 
-    public void setLayout(String layout) throws IOException {
-        session.getBasicRemote().sendText(layout);
+    public boolean setLayout(String layout) throws IOException {
+        if (Objects.equals(this.layout, layout)) return false;
+        session.getBasicRemote().sendText(this.layout = layout);
+        return true;
     }
 }

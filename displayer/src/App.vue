@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <router-view />
+    <router-view v-if="true"/>
   </div>
 </template>
 
@@ -29,7 +29,7 @@ export default {
     receiveMessage(message) {
       this.$router.push(message.data);
     }
-  }
+  },
 };
 </script>
 

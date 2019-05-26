@@ -2,7 +2,7 @@
   <el-container>
     <el-header>
       <el-input
-        placeholder="查询数据源"
+        placeholder="查询数据源 空查询即获取所有"
         v-model="keys"
         prefix-icon="el-icon-search"
         clearable

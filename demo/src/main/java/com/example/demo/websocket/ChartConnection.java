@@ -37,6 +37,7 @@ public class ChartConnection {
     @OnClose
     public void onClose() {
         connection = null;
+        LayoutConnection.getConnection().reset();
         System.out.println("chart disconnect");
     }
 

@@ -30,7 +30,7 @@ public class LayoutService {
 
     public void selectLayout(Integer select) throws IOException {
         this.selected = select;
-        LayoutConnection.getConnection().setLayout(buffer.get(select).getName());
+        if (!LayoutConnection.getConnection().setLayout(buffer.get(select).getName())) return;
         ChartConnection.clearConnection();
         try {
             while (ChartConnection.getConnection() == null)

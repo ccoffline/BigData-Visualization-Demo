@@ -54,7 +54,8 @@ public class ChartService {
     public String searchNamesByKeys(String keys) {
         String[] keysArray = keys.split(" ");
         Collection<Chart> result = null;
-        for (String key : keysArray) {
+        if (keys.isEmpty()) result = charts.values();
+        else for (String key : keysArray) {
 
             // 一个关键字对应多个标签
             Collection<String> labels = new LinkedList<>();

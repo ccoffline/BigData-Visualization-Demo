@@ -28,7 +28,7 @@ export default {
   created() {},
   data() {
     return {
-      imgs: ["layout8", "layout9", "layout12"],
+      imgs: ["layout9", "layout12"],
       search: "",
     };
   },

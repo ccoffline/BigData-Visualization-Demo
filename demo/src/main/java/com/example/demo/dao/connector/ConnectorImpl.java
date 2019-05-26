@@ -50,11 +50,11 @@ public class ConnectorImpl implements Connector {
 
     public ConnectorImpl(Configuration configuration) {
         this.configuration = configuration;
-        try {
-            connect();
-        } catch (IOException e) {
-            log.info("HBase connection failed. Waiting to reconnect.");
-        }
+//        try {
+//            connect();
+//        } catch (IOException e) {
+//            log.info("HBase connection failed. Waiting to reconnect.");
+//        }
     }
 
 //    @Pointcut("execution(* com.example.demo.dao.*Dao.*(..))")

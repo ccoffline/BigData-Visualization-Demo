@@ -57,7 +57,7 @@ export default {
       title: "",
       themes: [
         { name: "shine", title: "明亮" },
-        { name: "dark", title: "幽暗" },
+        //{ name: "dark", title: "幽暗" },
         { name: "macarons", title: "通心粉" }
       ],
       theme: null
